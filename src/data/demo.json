@@ -1,0 +1,689 @@
+{
+  "label": "October 5 sample slate",
+  "demo": true,
+  "games": [
+    {
+      "id": "bos-nyk",
+      "sport": "NBA",
+      "homeTeam": "Boston Celtics",
+      "awayTeam": "New York Knicks",
+      "homeAbbr": "BOS",
+      "awayAbbr": "NYK",
+      "startsAt": "2026-10-05T23:30:00Z",
+      "status": "scheduled"
+    },
+    {
+      "id": "den-lal",
+      "sport": "NBA",
+      "homeTeam": "Los Angeles Lakers",
+      "awayTeam": "Denver Nuggets",
+      "homeAbbr": "LAL",
+      "awayAbbr": "DEN",
+      "startsAt": "2026-10-06T02:00:00Z",
+      "status": "scheduled"
+    },
+    {
+      "id": "gsw-sac",
+      "sport": "NBA",
+      "homeTeam": "Sacramento Kings",
+      "awayTeam": "Golden State Warriors",
+      "homeAbbr": "SAC",
+      "awayAbbr": "GSW",
+      "startsAt": "2026-10-06T02:00:00Z",
+      "status": "scheduled"
+    },
+    {
+      "id": "kc-buf",
+      "sport": "NFL",
+      "homeTeam": "Buffalo Bills",
+      "awayTeam": "Kansas City Chiefs",
+      "homeAbbr": "BUF",
+      "awayAbbr": "KC",
+      "startsAt": "2026-10-06T00:15:00Z",
+      "status": "scheduled"
+    },
+    {
+      "id": "nyy-bos",
+      "sport": "MLB",
+      "homeTeam": "New York Yankees",
+      "awayTeam": "Boston Red Sox",
+      "homeAbbr": "NYY",
+      "awayAbbr": "BOS",
+      "startsAt": "2026-10-05T23:05:00Z",
+      "status": "scheduled"
+    }
+  ],
+  "props": [
+    {
+      "id": "prop-1",
+      "player": "Jayson Tatum",
+      "team": "BOS",
+      "gameId": "bos-nyk",
+      "market": "Points",
+      "side": "over",
+      "line": 27.5,
+      "projection": 31.2,
+      "probability": 0.64,
+      "odds": -110,
+      "edge": 11.6,
+      "confidence": "high",
+      "updatedAt": "2026-10-05T17:20:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 26.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 26.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 27
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 27
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 27.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 27.5
+        }
+      ]
+    },
+    {
+      "id": "prop-2",
+      "player": "Nikola Jokić",
+      "team": "DEN",
+      "gameId": "den-lal",
+      "market": "Assists",
+      "side": "over",
+      "line": 9.5,
+      "projection": 11.1,
+      "probability": 0.625,
+      "odds": -115,
+      "edge": 9,
+      "confidence": "high",
+      "updatedAt": "2026-10-05T17:21:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 8.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 8.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 9
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 9
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 9.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 9.5
+        }
+      ]
+    },
+    {
+      "id": "prop-3",
+      "player": "Stephen Curry",
+      "team": "GSW",
+      "gameId": "gsw-sac",
+      "market": "3-pointers",
+      "side": "over",
+      "line": 4.5,
+      "projection": 5.3,
+      "probability": 0.61,
+      "odds": 105,
+      "edge": 12.2,
+      "confidence": "medium",
+      "updatedAt": "2026-10-05T17:22:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 3.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 3.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 4
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 4
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 4.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 4.5
+        }
+      ]
+    },
+    {
+      "id": "prop-4",
+      "player": "Jalen Brunson",
+      "team": "NYK",
+      "gameId": "bos-nyk",
+      "market": "Points",
+      "side": "under",
+      "line": 28.5,
+      "projection": 25.8,
+      "probability": 0.603,
+      "odds": -110,
+      "edge": 7.9,
+      "confidence": "high",
+      "updatedAt": "2026-10-05T17:23:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 29.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 29.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 29
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 29
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 28.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 28.5
+        }
+      ]
+    },
+    {
+      "id": "prop-5",
+      "player": "LeBron James",
+      "team": "LAL",
+      "gameId": "den-lal",
+      "market": "Rebounds",
+      "side": "over",
+      "line": 7.5,
+      "projection": 8.4,
+      "probability": 0.575,
+      "odds": -105,
+      "edge": 6.3,
+      "confidence": "medium",
+      "updatedAt": "2026-10-05T17:24:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 6.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 6.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 7
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 7
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 7.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 7.5
+        }
+      ]
+    },
+    {
+      "id": "prop-6",
+      "player": "Jaylen Brown",
+      "team": "BOS",
+      "gameId": "bos-nyk",
+      "market": "Points",
+      "side": "over",
+      "line": 23.5,
+      "projection": 25.1,
+      "probability": 0.588,
+      "odds": -115,
+      "edge": 5.3,
+      "confidence": "high",
+      "updatedAt": "2026-10-05T17:25:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 22.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 22.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 23
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 23
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 23.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 23.5
+        }
+      ]
+    },
+    {
+      "id": "prop-7",
+      "player": "Domantas Sabonis",
+      "team": "SAC",
+      "gameId": "gsw-sac",
+      "market": "Rebounds",
+      "side": "over",
+      "line": 12.5,
+      "projection": 14.2,
+      "probability": 0.62,
+      "odds": -130,
+      "edge": 5.5,
+      "confidence": "high",
+      "updatedAt": "2026-10-05T17:26:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 11.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 11.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 12
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 12
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 12.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 12.5
+        }
+      ]
+    },
+    {
+      "id": "prop-8",
+      "player": "Patrick Mahomes",
+      "team": "KC",
+      "gameId": "kc-buf",
+      "market": "Passing yards",
+      "side": "over",
+      "line": 267.5,
+      "projection": 286.4,
+      "probability": 0.596,
+      "odds": -110,
+      "edge": 7.2,
+      "confidence": "high",
+      "updatedAt": "2026-10-05T17:27:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 266.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 266.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 267
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 267
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 267.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 267.5
+        }
+      ]
+    },
+    {
+      "id": "prop-9",
+      "player": "Josh Allen",
+      "team": "BUF",
+      "gameId": "kc-buf",
+      "market": "Rushing yards",
+      "side": "over",
+      "line": 38.5,
+      "projection": 43.2,
+      "probability": 0.574,
+      "odds": -110,
+      "edge": 5,
+      "confidence": "medium",
+      "updatedAt": "2026-10-05T17:28:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 37.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 37.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 38
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 38
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 38.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 38.5
+        }
+      ]
+    },
+    {
+      "id": "prop-10",
+      "player": "Aaron Judge",
+      "team": "NYY",
+      "gameId": "nyy-bos",
+      "market": "Total bases",
+      "side": "over",
+      "line": 1.5,
+      "projection": 2.2,
+      "probability": 0.59,
+      "odds": 110,
+      "edge": 11.4,
+      "confidence": "medium",
+      "updatedAt": "2026-10-05T17:29:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 0.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 0.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 1
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 1
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 1.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 1.5
+        }
+      ]
+    },
+    {
+      "id": "prop-11",
+      "player": "Derrick White",
+      "team": "BOS",
+      "gameId": "bos-nyk",
+      "market": "Assists",
+      "side": "under",
+      "line": 4.5,
+      "projection": 4.1,
+      "probability": 0.55,
+      "odds": -110,
+      "edge": 2.6,
+      "confidence": "low",
+      "updatedAt": "2026-10-05T17:30:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 5.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 5.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 5
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 5
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 4.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 4.5
+        }
+      ]
+    },
+    {
+      "id": "prop-12",
+      "player": "Austin Reaves",
+      "team": "LAL",
+      "gameId": "den-lal",
+      "market": "Points",
+      "side": "over",
+      "line": 18.5,
+      "projection": 18.7,
+      "probability": 0.51,
+      "odds": -115,
+      "edge": -2.5,
+      "confidence": "low",
+      "updatedAt": "2026-10-05T17:31:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 17.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 17.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 18
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 18
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 18.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 18.5
+        }
+      ]
+    },
+    {
+      "id": "prop-13",
+      "player": "Draymond Green",
+      "team": "GSW",
+      "gameId": "gsw-sac",
+      "market": "Assists",
+      "side": "over",
+      "line": 6.5,
+      "projection": 6.4,
+      "probability": 0.5,
+      "odds": -110,
+      "edge": -2.4,
+      "confidence": "low",
+      "updatedAt": "2026-10-05T17:32:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 5.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 5.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 6
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 6
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 6.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 6.5
+        }
+      ]
+    },
+    {
+      "id": "prop-14",
+      "player": "Jamal Murray",
+      "team": "DEN",
+      "gameId": "den-lal",
+      "market": "Points",
+      "side": "under",
+      "line": 22.5,
+      "projection": 23.1,
+      "probability": 0.54,
+      "odds": null,
+      "edge": 1.6,
+      "confidence": "medium",
+      "updatedAt": "2026-10-05T17:33:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 23.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 23.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 23
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 23
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 22.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 22.5
+        }
+      ]
+    },
+    {
+      "id": "prop-15",
+      "player": "Mikal Bridges",
+      "team": "NYK",
+      "gameId": "bos-nyk",
+      "market": "Rebounds",
+      "side": "over",
+      "line": 4.5,
+      "projection": null,
+      "probability": null,
+      "odds": -110,
+      "edge": null,
+      "confidence": "unknown",
+      "updatedAt": "2026-10-05T17:34:00Z",
+      "history": []
+    },
+    {
+      "id": "prop-16",
+      "player": "Travis Kelce",
+      "team": "KC",
+      "gameId": "kc-buf",
+      "market": "Receiving yards",
+      "side": "over",
+      "line": 57.5,
+      "projection": 57.5,
+      "probability": 0.524,
+      "odds": -110,
+      "edge": 0,
+      "confidence": "low",
+      "updatedAt": "2026-10-05T17:35:00Z",
+      "history": [
+        {
+          "timestamp": "2026-10-05T08:00:00Z",
+          "line": 56.5
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00Z",
+          "line": 56.5
+        },
+        {
+          "timestamp": "2026-10-05T12:00:00Z",
+          "line": 57
+        },
+        {
+          "timestamp": "2026-10-05T14:00:00Z",
+          "line": 57
+        },
+        {
+          "timestamp": "2026-10-05T16:00:00Z",
+          "line": 57.5
+        },
+        {
+          "timestamp": "2026-10-05T17:00:00Z",
+          "line": 57.5
+        }
+      ]
+    }
+  ]
+}
