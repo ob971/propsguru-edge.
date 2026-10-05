@@ -2,13 +2,13 @@
 import {
   ArrowDownLeft,
   ArrowUpRight,
-  Bookmark,
   ChevronRight,
   Clock3,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { OddsValue, SaveButton, quickTransition } from "./ui/motion-feedback";
 import type { Game, Prop } from "@/lib/data";
 import { edgeText, initials, percent, signed, stamp, value } from "@/lib/data";
 export function ConfidenceBadge({
@@ -39,6 +39,7 @@ export default function PropCard({
   onSave,
   onOpen,
   index = 0,
+  previousOdds,
 }: {
   prop: Prop;
   game: Game;
@@ -46,28 +47,37 @@ export default function PropCard({
   onSave: () => void;
   onOpen: () => void;
   index?: number;
+  previousOdds?: number;
 }) {
+  const reduced = useReducedMotion();
   const delta =
     p.history.length > 1
       ? p.history[p.history.length - 1].line - p.history[0].line
       : null;
   return (
     <motion.article
-      className="prop-card"
-      initial={{ opacity: 0, y: 8 }}
+      className={`prop-card ${saved ? "card-saved" : ""}`}
+      layout={reduced ? false : "position"}
+      initial={reduced ? false : { opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.22, delay: index * 0.04 }}
+      transition={
+        reduced
+          ? { duration: 0 }
+          : {
+              ...quickTransition,
+              opacity: { duration: 0.16, delay: index < 4 ? index * 0.025 : 0 },
+              y: { ...quickTransition, delay: index < 4 ? index * 0.025 : 0 },
+              layout: quickTransition,
+            }
+      }
     >
       <div className="card-top">
         <ConfidenceBadge confidence={p.confidence} />
-        <button
-          className={`icon-button save-button ${saved ? "is-saved" : ""}`}
+        <SaveButton
+          saved={saved}
+          label={`${p.player} ${p.market}`}
           onClick={onSave}
-          aria-label={`${saved ? "Unsave" : "Save"} ${p.player} ${p.market}`}
-          aria-pressed={saved}
-        >
-          <Bookmark size={18} fill={saved ? "currentColor" : "none"} />
-        </button>
+        />
       </div>
       <button
         className="card-main"
@@ -95,7 +105,9 @@ export default function PropCard({
                 <ArrowDownLeft size={21} />
               )}{" "}
               {p.side === "over" ? "Over" : "Under"} {value(p.line)}{" "}
-              <small>{signed(p.odds)}</small>
+              <small>
+                <OddsValue odds={p.odds} previous={previousOdds} />
+              </small>
             </h4>
           </div>
           <div className="card-edge">

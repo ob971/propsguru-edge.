@@ -860,11 +860,12 @@ select option {
   min-width: 0;
   transition:
     border-color 0.2s,
-    transform 0.2s;
+    translate 0.2s,
+    box-shadow 0.2s;
 }
 .prop-card:hover {
   border-color: #677e4f;
-  transform: translateY(-2px);
+  translate: 0 -2px;
 }
 .card-top {
   display: flex;
@@ -2680,6 +2681,271 @@ select option {
     padding: 10px;
   }
 }
+/* Short, interruptible feedback. No interaction waits for an animation. */
+.nav-item,
+.sport-tabs button,
+.mobile-nav button {
+  position: relative;
+  isolation: isolate;
+}
+.nav-item.active,
+.sport-tabs button.selected {
+  background: transparent;
+}
+.nav-selection,
+.sport-selection,
+.mobile-selection {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
+}
+.nav-selection {
+  background: #283121;
+}
+.sport-selection {
+  background: #c4ed8b;
+}
+.mobile-selection {
+  background: #c4ed8b0c;
+  border-radius: 8px;
+}
+.mobile-selection::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: calc(50% - 11px);
+  width: 22px;
+  height: 2px;
+  background: var(--lime);
+  border-radius: 4px;
+}
+.sport-tabs button {
+  font-weight: 600;
+}
+.ui-button,
+.icon-button,
+.dialog-close,
+.game-tile,
+.all-games-tile,
+.full-game-card {
+  transition:
+    background-color 160ms,
+    border-color 160ms,
+    color 160ms,
+    box-shadow 160ms,
+    translate 160ms,
+    scale 120ms;
+}
+.ui-button:active:not(:disabled),
+.icon-button:active:not(:disabled),
+.dialog-close:active,
+.sport-tabs button:active,
+.full-game-card:active,
+.game-tile:active,
+.all-games-tile:active {
+  scale: 0.98;
+}
+.save-glyph {
+  display: inline-flex;
+}
+.save-button.is-saved {
+  background: #c4ed8b18;
+  box-shadow: inset 0 0 0 1px #c4ed8b30;
+}
+.prop-card.card-saved {
+  border-color: #647e48;
+}
+.prop-card:focus-within {
+  border-color: #8eac66;
+}
+.card-footer button svg,
+.text-button svg,
+.game-card-footer > span:last-child svg {
+  transition: translate 160ms;
+}
+@media (hover: hover) and (pointer: fine) {
+  .full-game-card:hover {
+    translate: 0 -2px;
+    box-shadow: 0 6px 20px #0002;
+  }
+  .card-footer button:hover svg,
+  .text-button:hover svg,
+  .full-game-card:hover .game-card-footer svg {
+    translate: 2px 0;
+  }
+  .ui-button:hover:not(:disabled) {
+    box-shadow: 0 3px 12px #0002;
+  }
+}
+@media (hover: none) {
+  .prop-card:hover {
+    translate: none;
+  }
+}
+.dialog-overlay[data-state="open"] {
+  animation: fade-in 160ms ease-out;
+}
+.dialog-overlay[data-state="closed"] {
+  animation: overlay-out 120ms ease-in;
+}
+.dialog-content[data-state="open"] {
+  animation: dialog-in 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dialog-content[data-state="closed"] {
+  animation: dialog-out 120ms ease-in;
+  pointer-events: none;
+}
+.comparison-bars i,
+.probability-track i {
+  transform-origin: left;
+  animation: bar-reveal 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.empty-state {
+  animation: fade-in 160ms ease-out;
+}
+.prop-table tbody tr {
+  transition: background-color 140ms;
+}
+.odds-value {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+  border-radius: 3px;
+}
+.odds-changed {
+  animation: odds-notice 900ms ease-out;
+}
+.odds-direction {
+  color: var(--lime);
+  font-size: 12px;
+}
+.loading-spinner {
+  animation: spin 900ms linear infinite;
+}
+.file-label:has(input:disabled) {
+  opacity: 0.65;
+  cursor: wait;
+}
+.toast-region {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  translate: -50% 0;
+  width: max-content;
+  max-width: min(90vw, 580px);
+  z-index: 100;
+  pointer-events: none;
+  display: grid;
+}
+.toast-region .toast {
+  position: relative;
+  grid-area: 1 / 1;
+  bottom: auto;
+  left: auto;
+  transform: none;
+  width: auto;
+  max-width: 100%;
+  pointer-events: auto;
+  line-height: 1.5;
+}
+.toast > svg {
+  flex-shrink: 0;
+}
+.toast-dismiss {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 32px;
+  margin: -7px -10px -7px 0;
+  border-radius: 5px;
+}
+.toast-dismiss:hover {
+  background: #ffffff10;
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+    scale: 0.985;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+@keyframes dialog-out {
+  to {
+    opacity: 0;
+    translate: 0 6px;
+    scale: 0.99;
+  }
+}
+@keyframes overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes bar-reveal {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes odds-notice {
+  from {
+    background-color: #c4ed8b40;
+    box-shadow: 0 0 0 4px #c4ed8b20;
+  }
+  to {
+    background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@media (max-width: 620px) {
+  .toast-region {
+    bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+  .filter-dialog[data-state="open"],
+  .analysis-dialog[data-state="open"] {
+    animation-name: sheet-in;
+  }
+  .filter-dialog[data-state="closed"],
+  .analysis-dialog[data-state="closed"] {
+    animation-name: sheet-out;
+  }
+  .toast-dismiss {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes sheet-out {
+  to {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *:before,
@@ -2687,5 +2953,19 @@ select option {
     scroll-behavior: auto !important;
     animation: none !important;
     transition: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prop-card,
+  .full-game-card,
+  .card-footer button svg,
+  .text-button svg,
+  .game-card-footer svg {
+    translate: none !important;
+  }
+  button:active,
+  .ui-button:active {
+    scale: none !important;
   }
 }

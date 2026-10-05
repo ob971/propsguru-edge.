@@ -16,13 +16,21 @@ import {
   Download,
   Filter,
   Layers3,
+  LoaderCircle,
   Search,
   SlidersHorizontal,
   Sparkles,
   Upload,
   X,
 } from "lucide-react";
-import { MotionConfig } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  MotionConfig,
+  useReducedMotion,
+} from "framer-motion";
+import { OddsValue, SaveButton, quickTransition } from "./ui/motion-feedback";
+import { changedOdds } from "@/lib/odds";
 import demo from "@/data/demo.json";
 import {
   type Dataset,
@@ -34,7 +42,6 @@ import {
   isOpportunity,
   isStrong,
   value,
-  signed,
   percent,
   edgeText,
   shortDate,
@@ -60,6 +67,11 @@ const nav = [
   { id: "saved", label: "Saved props", icon: Bookmark },
 ] as const;
 export default function Workspace() {
+  const reduced = useReducedMotion();
+  const motionTransition = reduced ? { duration: 0 } : quickTransition;
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [oddsChanges, setOddsChanges] = useState<Record<string, number>>({});
   const [data, setData] = useState<Dataset>(initialData);
   const [view, setView] = useState<View>("opportunities");
   const [sport, setSport] = useState("All sports");
@@ -120,6 +132,9 @@ export default function Workspace() {
   const isSaved = (p: Prop) => saved.includes(saveKey(p));
   function toggleSave(p: Prop) {
     const key = saveKey(p);
+    setNotice(
+      `${p.player} ${p.side} ${value(p.line)} ${p.market} ${isSaved(p) ? "removed from" : "added to"} saved props.`,
+    );
     setSaved((old) =>
       old.includes(key) ? old.filter((v) => v !== key) : [...old, key],
     );
@@ -150,10 +165,10 @@ export default function Workspace() {
   function openProp(p: Prop) {
     openerRef.current = document.activeElement as HTMLElement;
     setSelected(p);
+    setDetailOpen(true);
   }
   function closeProp() {
-    setSelected(null);
-    requestAnimationFrame(() => openerRef.current?.focus());
+    setDetailOpen(false);
   }
   const filtered = useMemo(
     () =>
@@ -282,23 +297,29 @@ export default function Workspace() {
     </div>
   );
   async function importFile(file: File | undefined) {
-    if (!file) return;
+    if (!file || importing) return;
     setImportError("");
+    setImporting(true);
     try {
       if (file.size > 5 * 1024 * 1024)
         throw new Error("Please use a JSON file smaller than 5 MB.");
       const parsed = parseDataset(JSON.parse(await file.text()));
+      const changes = changedOdds(data, parsed);
+      setOddsChanges(changes);
       setData(parsed);
       reset();
+      setDetailOpen(false);
       setSelected(null);
       setImportOpen(false);
       setNotice(
-        `Loaded ${parsed.props.length} props across ${parsed.games.length} games.`,
+        `Loaded ${parsed.props.length} props across ${parsed.games.length} games.${Object.keys(changes).length ? ` ${Object.keys(changes).length} odds changed since the preceding snapshot; marked with arrows.` : ""}`,
       );
     } catch (e) {
       setImportError(
         e instanceof Error ? e.message : "Unable to read this JSON file.",
       );
+    } finally {
+      setImporting(false);
     }
   }
   return (
@@ -334,12 +355,28 @@ export default function Workspace() {
                 key={id}
                 onClick={() => navigate(id)}
                 className={view === id ? "nav-item active" : "nav-item"}
+                aria-label={label}
                 aria-current={view === id ? "page" : undefined}
               >
+                {view === id && (
+                  <motion.i
+                    className="nav-selection"
+                    layoutId="desktop-nav"
+                    transition={motionTransition}
+                    aria-hidden="true"
+                  />
+                )}
                 <Icon size={18} />
                 <span>{label}</span>
                 {id === "saved" && savedCount > 0 ? (
-                  <b>{savedCount}</b>
+                  <motion.b
+                    key={savedCount}
+                    initial={reduced ? false : { scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={motionTransition}
+                  >
+                    {savedCount}
+                  </motion.b>
                 ) : id === "opportunities" ? (
                   <span className="nav-dot" />
                 ) : null}
@@ -420,7 +457,13 @@ export default function Workspace() {
               <ChevronDown size={13} />
             </button>
           </header>
-          <main id="main">
+          <motion.main
+            id="main"
+            key={view}
+            initial={reduced ? false : { opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={motionTransition}
+          >
             <div className="page-heading">
               <div>
                 <div className="eyebrow heading-eyebrow">
@@ -547,6 +590,14 @@ export default function Workspace() {
                     className={sport === s ? "selected" : ""}
                     aria-pressed={sport === s}
                   >
+                    {sport === s && (
+                      <motion.i
+                        className="sport-selection"
+                        layoutId={`sport-${view}`}
+                        transition={motionTransition}
+                        aria-hidden="true"
+                      />
+                    )}
                     {s === "All sports" ? (
                       <Layers3 size={15} />
                     ) : (
@@ -783,11 +834,12 @@ export default function Workspace() {
                           <PropCard
                             key={p.id}
                             prop={p}
+                            previousOdds={oddsChanges[p.id]}
                             game={gameMap.get(p.gameId)!}
                             saved={isSaved(p)}
                             onSave={() => toggleSave(p)}
                             onOpen={() => openProp(p)}
-                            index={Math.min(i, 5)}
+                            index={i}
                           />
                         ))}
                     </div>
@@ -853,7 +905,12 @@ export default function Workspace() {
                                   <b>
                                     {p.side === "over" ? "Over" : "Under"}{" "}
                                     {value(p.line)}{" "}
-                                    <small>{signed(p.odds)}</small>
+                                    <small>
+                                      <OddsValue
+                                        odds={p.odds}
+                                        previous={oddsChanges[p.id]}
+                                      />
+                                    </small>
                                   </b>
                                   <span>{p.market}</span>
                                 </button>
@@ -867,17 +924,11 @@ export default function Workspace() {
                                 <ConfidenceBadge confidence={p.confidence} />
                               </td>
                               <td>
-                                <button
-                                  className={`icon-button ${isSaved(p) ? "is-saved" : ""}`}
+                                <SaveButton
+                                  saved={isSaved(p)}
+                                  label={`${p.player} ${p.market}`}
                                   onClick={() => toggleSave(p)}
-                                  aria-label={`${isSaved(p) ? "Unsave" : "Save"} ${p.player} ${p.market}`}
-                                  aria-pressed={isSaved(p)}
-                                >
-                                  <Bookmark
-                                    size={16}
-                                    fill={isSaved(p) ? "currentColor" : "none"}
-                                  />
-                                </button>
+                                />
                                 <button
                                   className="icon-button"
                                   aria-label={`Analyze ${p.player} ${p.market}`}
@@ -907,7 +958,7 @@ export default function Workspace() {
                 <span className="separator">/</span> No outcome is guaranteed.
               </span>
             </div>
-          </main>
+          </motion.main>
         </div>
         <nav className="mobile-nav" aria-label="Mobile navigation">
           {nav.map(({ id, label, icon: Icon }) => (
@@ -915,8 +966,17 @@ export default function Workspace() {
               key={id}
               className={view === id ? "active" : ""}
               onClick={() => navigate(id)}
+              aria-label={label}
               aria-current={view === id ? "page" : undefined}
             >
+              {view === id && (
+                <motion.i
+                  className="mobile-selection"
+                  layoutId="mobile-nav"
+                  transition={motionTransition}
+                  aria-hidden="true"
+                />
+              )}
               <Icon size={20} />
               <span>{label}</span>
             </button>
@@ -925,7 +985,12 @@ export default function Workspace() {
         <PropDetail
           prop={selected}
           game={selected ? gameMap.get(selected.gameId) : undefined}
-          open={!!selected}
+          open={detailOpen}
+          previousOdds={selected ? oddsChanges[selected.id] : undefined}
+          onAfterClose={() => {
+            if (openerRef.current?.isConnected) openerRef.current.focus();
+            else searchRef.current?.focus();
+          }}
           onClose={closeProp}
           saved={selected ? isSaved(selected) : false}
           onSave={() => selected && toggleSave(selected)}
@@ -1011,19 +1076,27 @@ export default function Workspace() {
                 ? "You’re exploring a labeled demo fixture. The original JSON wasn’t included with the brief."
                 : `Currently exploring ${data.label}.`}
             </DialogDescription>
-            <div className="import-box">
-              <Upload size={27} />
+            <div className="import-box" aria-busy={importing}>
+              {importing ? (
+                <LoaderCircle size={27} className="loading-spinner" />
+              ) : (
+                <Upload size={27} />
+              )}
               <h3>Load a JSON dataset</h3>
               <p>
                 Your file stays in this browser tab. Reloading restores the
                 demo.
               </p>
               <label className="ui-button button-primary file-label">
-                Choose JSON file
+                {importing ? "Reading dataset…" : "Choose JSON file"}
                 <input
+                  disabled={importing}
                   type="file"
                   accept=".json,application/json"
-                  onChange={(e) => importFile(e.target.files?.[0])}
+                  onChange={(e) => {
+                    void importFile(e.target.files?.[0]);
+                    e.target.value = "";
+                  }}
                 />
               </label>
             </div>
@@ -1047,6 +1120,7 @@ export default function Workspace() {
                 <Button
                   variant="ghost"
                   onClick={() => {
+                    setOddsChanges({});
                     setData(initialData);
                     reset();
                     setImportOpen(false);
@@ -1058,12 +1132,35 @@ export default function Workspace() {
             </div>
           </DialogContent>
         </Dialog>
-        {notice && (
-          <div className="toast" role="status">
-            <Check size={16} />
-            {notice}
-          </div>
-        )}
+        <div
+          className="toast-region"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <AnimatePresence initial={false}>
+            {notice && (
+              <motion.div
+                key={notice}
+                className="toast"
+                initial={reduced ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduced ? 0 : 5 }}
+                transition={motionTransition}
+              >
+                <Check size={16} />
+                <span>{notice}</span>
+                <button
+                  className="toast-dismiss"
+                  onClick={() => setNotice("")}
+                  aria-label="Dismiss notification"
+                >
+                  <X size={15} />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </MotionConfig>
   );

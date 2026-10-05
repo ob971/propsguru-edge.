@@ -1,12 +1,14 @@
 "use client";
 import {
   Bookmark,
+  Check,
   ArrowUpRight,
   ArrowDownRight,
   ChartNoAxesCombined,
   Info,
   MoveRight,
 } from "lucide-react";
+import { OddsValue } from "./ui/motion-feedback";
 import {
   LineChart,
   Line,
@@ -43,6 +45,8 @@ export default function PropDetail({
   onClose,
   saved,
   onSave,
+  onAfterClose,
+  previousOdds,
 }: {
   prop: Prop | null;
   game: Game | undefined;
@@ -50,6 +54,8 @@ export default function PropDetail({
   onClose: () => void;
   saved: boolean;
   onSave: () => void;
+  onAfterClose: () => void;
+  previousOdds?: number;
 }) {
   if (!p || !game) return null;
   const delta = p.projection === null ? null : p.projection - p.line;
@@ -61,7 +67,13 @@ export default function PropDetail({
       : Math.max(p.projection, p.line) * 1.25 || 1;
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="analysis-dialog">
+      <DialogContent
+        className="analysis-dialog"
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          onAfterClose();
+        }}
+      >
         <div className="detail-scroll">
           <div className="detail-kicker">
             <ChartNoAxesCombined size={15} /> THE SIGNAL, EXPLAINED
@@ -84,7 +96,9 @@ export default function PropDetail({
               <span className="eyebrow">{p.market}</span>
               <h2>
                 {p.side === "over" ? "Over" : "Under"} {value(p.line)}
-                <small>{signed(p.odds)}</small>
+                <small>
+                  <OddsValue odds={p.odds} previous={previousOdds} />
+                </small>
               </h2>
               <ConfidenceBadge confidence={p.confidence} />
             </div>
@@ -318,8 +332,12 @@ export default function PropDetail({
         </div>
         <div className="detail-actions">
           <span>Keep this signal on your radar.</span>
-          <Button onClick={onSave} variant={saved ? "outline" : "default"}>
-            <Bookmark size={16} fill={saved ? "currentColor" : "none"} />
+          <Button
+            onClick={onSave}
+            aria-pressed={saved}
+            variant={saved ? "outline" : "default"}
+          >
+            {saved ? <Check size={16} /> : <Bookmark size={16} />}
             {saved ? "Saved to your list" : "Save prop"}
           </Button>
         </div>
