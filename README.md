@@ -2,14 +2,32 @@
 
 A responsive sports analytics workspace for discovering and understanding model-backed player props. Built with Next.js App Router, React, TypeScript, Tailwind CSS, shadcn/ui-style Radix primitives, Recharts, and Framer Motion.
 
+## Application and source code
+
+- **Deployed application:** [Propsguru Edge on Vercel](https://propsguru-edge.vercel.app/)
+- **Source code:** [ob971/propsguru-edge. on GitHub](https://github.com/ob971/propsguru-edge.)
+- **Handoff document:** [Propsguru Edge project handoff](docs/Propsguru-Edge-Handoff.docx)
+
+The repository name ends with a period. The clone URL therefore contains two periods before `git`. If the repository is private, reviewers need repository access or a source-code ZIP.
+
+## Review the experience
+
+Start in **Opportunities** to scan the positive-edge board. Use **Games** to explore a matchup or **All props** to include negative-edge and incomplete records. Search for a player, filter by market or confidence, and open **View analysis** for projections, odds, probability, and line history. Save a prop and find it again under **Saved props**. **Data source** accepts a compatible local JSON file and provides an example schema.
+
 ## Run locally
 
 Requires Node.js 22.9+ and npm.
 
+Clone the repository into a folder without the trailing period, then install the locked dependencies:
+
 ```sh
+git clone https://github.com/ob971/propsguru-edge..git propsguru-edge
+cd propsguru-edge
 npm ci
 npm run dev
 ```
+
+If you already have the source ZIP, extract it and run `npm ci` and `npm run dev` from the folder containing `package.json`. No environment variables, backend, or API keys are required. Stop the development server with Ctrl+C.
 
 Open http://localhost:3000. To check the project:
 
@@ -19,7 +37,7 @@ npm test
 npm run build
 ```
 
-The production build is a static export in `out/`. Serve that directory with any static host (Vercel, Cloudflare Pages, Netlify, or Sites). Because this project uses static export, use a static file server to preview `out/`, rather than `next start`.
+The production build is a static export in `out/`. The deployed app is hosted on Vercel. To preview `out/` locally, use a static file server rather than `next start`. Building the project writes local files; publication is a separate action.
 
 ## Important data note
 
@@ -64,15 +82,54 @@ Root: `{ label?: string, demo?: boolean, games: Game[], props: Prop[] }`.
 - `src/components/prop-detail.tsx`: deeper analysis and line movement chart.
 - `src/components/ui`: locally owned shadcn/ui-pattern Button and Radix Dialog primitives.
 - `src/app`: static App Router page, layout, loading/error boundaries, responsive design tokens and styles. Tailwind utilities and custom component CSS share one stylesheet.
-- `tests/data.test.ts`: validation, ranking, missing-value, history, and odds tests.
+- `src/lib/odds.ts`: compares odds between matching selections in successive snapshots.
+- `tests/data.test.ts` and `tests/odds.test.ts`: validation, ranking, missing-value, history, and odds-change tests.
 
 No backend, authentication layer, betting functionality, or external sports service is part of this application.
 
 ## Trade-offs and next steps
 
-The missing original JSON is the primary limitation. First adapt and verify its schema, probability units, confidence scale, and edge semantics. Next add URL-persisted filters and direct prop links, automated accessibility checks, screen-reader testing, and broader real-device coverage. Large datasets would benefit from pagination and deferred search. Localization and viewer-timezone controls would be useful beyond the current explicit UTC display.
+The original JSON still needs validation against the parser. The current application uses a clearly labeled illustrative fixture.
 
-The animation update is local only. Running a production build creates files on disk; it does not publish the app.
+I would prioritize improvements that make recommendations easier to trust, the experience easier to share, and the application more reliable.
+
+### Validate the original dataset
+
+My first step would be testing the application against the original JSON and confirming how each field should be interpreted. I would verify whether probabilities use decimals or percentages, how confidence is represented, and whether edge is supplied directly or requires calculation.
+
+I would expand coverage for duplicate records, missing odds, inconsistent timestamps, and incomplete line history. This would help ensure that unusual data never produces a misleading recommendation.
+
+### Add shareable prop links and preserve filters
+
+Each prop would have its own URL so users could share a specific analysis or return to it later. I would also store search, filters, and sorting in the URL.
+
+This would let someone share a view such as NBA points props with high confidence and at least five percentage points of edge. Refreshing the page or using the browser Back button would preserve their browsing context.
+
+### Explain freshness and changing recommendations
+
+The application currently displays snapshot timestamps. I would make it easier to distinguish a recent snapshot from older information, using freshness rules appropriate to the dataset.
+
+When a new snapshot is loaded, I would show which saved props changed, including their previous and current odds, lines, or projections. If a saved selection disappeared, I would explain that it is no longer available in the current dataset. This would help users understand changes without implying that the app has a live feed.
+
+### Expand accessibility and interaction testing
+
+I would add automated tests for complete journeys: finding a prop, applying filters, opening analysis, saving a selection, and importing another dataset.
+
+I would also test with screen readers, keyboard-only navigation, reduced-motion settings, and physical mobile devices. Particular attention would go to dialog focus, chart descriptions, touch targets, and announcing updates without overwhelming the user.
+
+### Improve performance with larger datasets
+
+The current dataset is small. I would test with thousands of props and measure filtering, sorting, rendering, and scrolling performance.
+
+Based on those results, I would introduce pagination or virtualization, optimize repeated calculations, and defer expensive search updates where necessary. The goal would be to keep browsing responsive as the amount of data grows.
+
+### Refine the experience through user feedback
+
+I would observe sports fans completing realistic tasks and identify where they hesitate or misunderstand the information. That would help determine whether labels, ranking explanations, filters, and analysis views need refinement.
+
+I would also add local-time display with a clear timezone label, making game schedules easier to understand while retaining precise timestamps.
+
+My first priorities would be dataset validation and stronger testing, followed by shareable links and clearer snapshot changes. Those improvements would deliver the most immediate gains in accuracy, reliability, and everyday usefulness.
 
 ## Motion and interaction decisions
 
@@ -87,6 +144,8 @@ Sportsbook research informed the interaction structure: [DraftKings’ selection
 Motion durations live in `src/components/ui/motion-feedback.tsx` and the interaction styles near the end of `src/app/globals.css`. Odds comparison is isolated in `src/lib/odds.ts` with regression coverage.
 
 ## Verification
+
+The following checks were completed on the local implementation before this documentation update; they are not a separate audit of the Vercel deployment.
 
 - Production static export built successfully.
 - TypeScript strict type checking passed.
